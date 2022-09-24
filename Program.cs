@@ -28,6 +28,7 @@ do
     Console.WriteLine("8 - show status orders");
     Console.WriteLine("9 - show table orders/custumer");
     Console.WriteLine("10 - Enter random values to D.B");
+    Console.WriteLine("11 - generate the most common ingredient");
 
     Console.WriteLine("");
     Console.WriteLine("(-1) - for exit");
@@ -98,7 +99,11 @@ do
             int size = Int32.Parse(Console.ReadLine());
             BusinessLogic.Logic.fillTables(size);
             break;
-
+        case 11:
+            Console.WriteLine("Generating the most common ingredient...");
+          string ingredient=  MySqlAccess.MySqlAccess.most_common_ingredient();
+          Console.WriteLine( ingredient );
+            break;
     
     }
 

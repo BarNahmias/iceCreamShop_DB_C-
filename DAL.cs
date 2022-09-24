@@ -184,7 +184,33 @@ namespace MySqlAccess
             return tp;
         }
 
+public static string most_common_ingredient(){
+            string ingredient ="";
+            try{
+                MySqlConnection conn = new MySqlConnection(connStr);
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                string sql = "With amounts as ( SELECT  topings as product, COUNT(topings) AS amount FROM IceCreamShop.Orders  GROUP BY topings UNION " +
+             " SELECT flavors as product, COUNT(flavors) AS amount FROM IceCreamShop.Orders   GROUP BY flavors UNION " +
+             " SELECT topings as product, COUNT(topings) AS amount FROM IceCreamShop.Orders  GROUP BY topings ), " +
+                " maxes as( Select Product, amount, max(amount) over() as max_amount From amounts ) "+
+                " Select Product From maxes Where amount = max_amount ";
 
+                MySqlCommand cmd = new MySqlCommand(sql,conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while(rdr.Read()){
+                    ingredient = rdr.GetString(0);
+
+                }
+                rdr.Close();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return ingredient;
+        }
 
         public static void insertObject(Object obj)
         {
